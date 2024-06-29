@@ -1,0 +1,10 @@
+node_modules/
+lerna-debug.log
+npm-debug.log
+packages/*/dist
+packages/*/esm
+packages/*/lib
+packages/*/iife
+packages/*/__tests__
+.idea
+.vscode

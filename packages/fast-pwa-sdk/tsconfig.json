@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "ESNext", // 让 Rollup 处理模块化
+    "lib": ["ESNext", "DOM"],
+    "declaration": true, // 生成类型声明文件
+    "sourceMap": true, // 生成 source maps
+    "outDir": "./dist", // 指定输出目录，但 Rollup 会覆盖这个设置
+    "strict": false,
+    "esModuleInterop": true, // 使 CommonJS 和 ES 模块互操作
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "esm", "iife","cjs"]
+}

@@ -1,0 +1,7 @@
+packages:
+  # packages 目录下的所有次级目录
+  - "packages/**"
+    # 测试文件夹
+  - "example"
+    # 文档目录
+  - "docs"

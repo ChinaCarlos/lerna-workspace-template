@@ -1,0 +1,30 @@
+{
+  "name": "fast-pwa-sdk",
+  "version": "0.0.1",
+  "description": "Now I’m the model of a modern major general / The venerated Virginian veteran whose men are all / Lining up, to put me up on a pedestal / Writin’ letters to relatives / Embellishin’ my elegance and eloquence / But the elephant is in the room / The truth is in ya face when ya hear the British cannons go / BOOM",
+  "keywords": [],
+  "author": "maliaoMJ <1302151931@qq.com>",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "directories": {
+    "dist": "dist"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmmirror.com/"
+  },
+  "module": "dist/index.js",
+  "type": "module",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "build": "rollup -c",
+    "dev": "rollup -cw"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}

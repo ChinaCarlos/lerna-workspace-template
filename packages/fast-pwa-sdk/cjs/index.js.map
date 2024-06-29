@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sources":["../src/index.ts"],"sourcesContent":[null],"names":["isInPWA","window","matchMedia","matches"],"mappings":";;IAAaA,OAAO,GAAG,SAAVA,OAAOA,GAAG;AACrB,EAAA,OAAO,CAAC,EACNC,MAAM,CAACC,UAAU,CAAC,4BAA4B,CAAC,CAACC,OAAO,IACvDF,MAAM,CAACC,UAAU,CAAC,4BAA4B,CAAC,CAACC,OAAO,IACvDF,MAAM,CAACC,UAAU,CAAC,4BAA4B,CAAC,CAACC,OAAO,CACxD,CAAA;AACH;;;;"}
