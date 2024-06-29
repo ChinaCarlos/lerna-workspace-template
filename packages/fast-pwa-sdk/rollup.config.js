@@ -101,7 +101,7 @@ export default [
         format: "iife",
         sourcemap: true,
         exports: "auto",
-        name: "package2",
+        name: "FAST_PWA_SDK",
       },
     ],
   },
