@@ -1,0 +1,25 @@
+{
+  "name": "components",
+  "version": "0.0.1",
+  "description": "some components support fast-pwa-sdk",
+  "main": "dist/es/index.mjs",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "vue": "^3.4.31"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.5",
+    "sass": "^1.77.6",
+    "unplugin-vue-define-options": "^1.4.5",
+    "vite": "^5.3.2",
+    "vite-plugin-dts": "1.4.1"
+  },
+  "license": "ISC"
+}
