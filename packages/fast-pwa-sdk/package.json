@@ -21,10 +21,16 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "rollup -c",
-    "dev": "rollup -cw"
+    "dev": "rollup -cw",
+    "precommit": "lint-staged"
   },
   "dependencies": {
   },
   "devDependencies": {
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint"
+    ]
   }
 }
