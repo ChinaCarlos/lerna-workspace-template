@@ -1,0 +1,27 @@
+{
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "semi": true,
+  "jsxSingleQuote": true,
+  "endOfLine": "lf",
+  "printWidth": 120,
+  "tabWidth": 4,
+  "bracketSpacing": false,
+  "bracketSameLine": false,
+  "arrowParens": "avoid",
+  "singleAttributePerLine": true,
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": {
+        "parser": "json"
+      }
+    },
+    {
+      "files": "*.config.js",
+      "options": {
+        "parser": "babel"
+      }
+    }
+  ]
+}

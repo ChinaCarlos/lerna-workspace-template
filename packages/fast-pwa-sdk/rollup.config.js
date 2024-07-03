@@ -49,36 +49,6 @@ export default [
       resolve(),
       commonjs(),
       typescript({
-        outDir: "cjs",
-      }),
-      json(),
-      babel({
-        babelHelpers: "runtime",
-        extensions: [".ts", ".js"],
-        exclude: "node_modules/**",
-        presets: [["@babel/preset-env", { modules: false }]],
-        plugins: ["@babel/plugin-transform-runtime"],
-      }),
-    ],
-    output: [
-      {
-        dir: "cjs",
-        format: "cjs",
-        sourcemap: true,
-        preserveModules: false,
-        exports: "auto",
-      },
-    ],
-  },
-  {
-    input: "src/index.ts",
-    plugins: [
-      clear({
-        targets: ["dist", "esm", "iife", "cjs"],
-      }),
-      resolve(),
-      commonjs(),
-      typescript({
         outDir: "iife",
       }),
       json(),
