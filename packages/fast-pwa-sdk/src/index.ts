@@ -5,7 +5,6 @@ import './index.scss';
  * FAST_PWA_SDK
  * 快速构建PWA的SDK,通过各种配置快速生成PWA应用
  */
-
 const FAST_PWA_SDK_INIT_CONFIG_LOADING = 'FAST_PWA_SDK_INIT_CONFIG_LOADING';
 const FAST_PWA_LINK_HEADER = 'FAST_PWA_LINK_HEADER';
 
@@ -40,7 +39,7 @@ class FAST_PWA_SDK {
     /**
      * 创建PWA SDK 所需要的DOM
      */
-    private initPWASDKDOM() {
+    private initPwaSDKDom() {
         const initLoadingDom = document.createElement('div');
         initLoadingDom.id = FAST_PWA_SDK_INIT_CONFIG_LOADING;
         initLoadingDom.style.display = 'none';
@@ -98,7 +97,7 @@ class FAST_PWA_SDK {
      *
      */
     private async _initSDK() {
-        !!this.options.enableInitPwaLoading && this.initPWASDKDOM();
+        !!this.options.enableInitPwaLoading && this.initPwaSDKDom();
         this._showInitPwaLoading();
         this._createPwaHeaderTag();
         this._beforeInstallPromptHandle();
@@ -163,6 +162,9 @@ class FAST_PWA_SDK {
      * 安装PWA
      */
     async installPWA() {
+        // 首先判断是否已经安装过该PWA，如果安装过直接打开startUrl
+        // 如果没有安装该PWA尝试安装该PWA，如果可以安装，走安装流程
+        // 如果该浏览器不支持PWA，则打开startUrl
         if (this.installEvent) {
             const result = await this.installEvent?.prompt?.();
             console.log('result:', result);

@@ -7,6 +7,7 @@ import json from '@rollup/plugin-json';
 import scss from 'rollup-plugin-scss';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
+import { terser } from 'rollup-plugin-terser';
 
 // 本地测试打包之后产物，在index.html 中引入打包之后的产物
 import serve from 'rollup-plugin-serve';
@@ -40,6 +41,7 @@ export default [
                 presets: [['@babel/preset-env', { modules: false }]],
                 plugins: ['@babel/plugin-transform-runtime'],
             }),
+            terser(),
         ],
         output: [
             {
@@ -78,6 +80,7 @@ export default [
                 presets: [['@babel/preset-env', { modules: false }]],
                 plugins: ['@babel/plugin-transform-runtime'],
             }),
+            terser(),
             serve({
                 contentBase: '', //服务器启动的文件夹，默认是项目根目录，需要在该文件下创建index.html
                 port: 8020, //端口号，默认10001
