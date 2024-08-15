@@ -11,6 +11,7 @@ import autoprefixer from 'autoprefixer';
 // 本地测试打包之后产物，在index.html 中引入打包之后的产物
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
+
 export default [
     {
         input: 'src/index.ts',

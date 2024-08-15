@@ -6,7 +6,7 @@
   "endOfLine": "lf",
   "printWidth": 120,
   "tabWidth": 4,
-  "bracketSpacing": false,
+  "bracketSpacing": true,
   "bracketSameLine": false,
   "arrowParens": "avoid",
   "singleAttributePerLine": true,
