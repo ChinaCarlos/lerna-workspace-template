@@ -35,3 +35,14 @@ export enum USER_OUTCOME_TYPES {
     DISMISSED = 'dismissed',
     ACCEPTED = 'accepted',
 }
+
+/**
+ * PWA 安装状态
+ */
+
+export enum PWA_INSTALL_STATUS {
+    TO_BE_INSTALLED = 'TO_BE_INSTALLED',
+    INSTALLING = 'INSTALLING',
+    INSTALLED = 'INSTALLED',
+    INSTALL_FAILED = 'INSTALL_FAILED',
+}

@@ -1,4 +1,4 @@
-import { PWA_CONFIG_OPTIONS, PWA_EVENT_LOG_INFO_TYPES, USER_OUTCOME_TYPES } from './types';
+import { PWA_CONFIG_OPTIONS, PWA_EVENT_LOG_INFO_TYPES, PWA_INSTALL_STATUS, USER_OUTCOME_TYPES } from './types';
 import { PwaLog } from './utils';
 import './index.scss';
 /**
@@ -7,10 +7,12 @@ import './index.scss';
  */
 const FAST_PWA_SDK_INIT_CONFIG_LOADING = 'FAST_PWA_SDK_INIT_CONFIG_LOADING';
 const FAST_PWA_LINK_HEADER = 'FAST_PWA_LINK_HEADER';
+const PREFIX_LOCAL_CACHE_KEY = 'FAST_PWA_SDK_INSTALL';
 
 class FAST_PWA_SDK {
     public options: PWA_CONFIG_OPTIONS | null = null;
     public installEvent: any = null;
+    public instalStatus: PWA_INSTALL_STATUS = PWA_INSTALL_STATUS.TO_BE_INSTALLED;
 
     public registration: ServiceWorkerRegistration | null = null;
     private static instance?: FAST_PWA_SDK;
@@ -140,6 +142,8 @@ class FAST_PWA_SDK {
     private _beforeInstallPromptHandle() {
         window.addEventListener('beforeinstallprompt', event => {
             this.installEvent = event;
+            this.instalStatus = PWA_INSTALL_STATUS.TO_BE_INSTALLED;
+            localStorage.setItem(`${PREFIX_LOCAL_CACHE_KEY}_${this.options.PWAId}`, '0');
             event.preventDefault();
         });
     }
@@ -170,8 +174,11 @@ class FAST_PWA_SDK {
             console.log('result:', result);
             if (result?.outcome === USER_OUTCOME_TYPES.ACCEPTED) {
                 console.log('用户同意安装PWA！');
+                this.instalStatus = PWA_INSTALL_STATUS.INSTALLING;
+                localStorage.setItem(`${PREFIX_LOCAL_CACHE_KEY}_${this.options.PWAId}`, '1');
             } else {
                 console.log('用户拒绝安装PWA！');
+                this.instalStatus = PWA_INSTALL_STATUS.INSTALL_FAILED;
             }
         }
     }
