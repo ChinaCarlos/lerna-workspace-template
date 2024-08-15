@@ -20,8 +20,8 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "rollup -c",
-    "dev": "rollup -cw",
+    "build": "rollup -c --prod",
+    "dev": "rollup -cw --dev",
     "precommit": "lint-staged"
   },
   "devDependencies": {

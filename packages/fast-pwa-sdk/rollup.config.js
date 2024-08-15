@@ -10,8 +10,48 @@ import autoprefixer from 'autoprefixer';
 import { terser } from 'rollup-plugin-terser';
 
 // 本地测试打包之后产物，在index.html 中引入打包之后的产物
-// import serve from 'rollup-plugin-serve';
-// import livereload from 'rollup-plugin-livereload';
+import serve from 'rollup-plugin-serve';
+import livereload from 'rollup-plugin-livereload';
+
+const args = process.argv.pop();
+
+let plugins = [
+    clear({
+        targets: ['dist', 'esm', 'iife', 'cjs'],
+    }),
+    scss({
+        processor: () => postcss([autoprefixer()]),
+        // 配置选项，例如输出文件的路径和名称
+        output: false,
+        insert: true,
+        // 其他配置选项，如是否压缩等
+        outputStyle: 'compressed',
+    }),
+    resolve(),
+    commonjs(),
+    typescript({
+        outDir: 'iife',
+    }),
+    json(),
+    babel({
+        babelHelpers: 'runtime',
+        extensions: ['.ts', '.js'],
+        exclude: 'node_modules/**',
+        presets: [['@babel/preset-env', { modules: false }]],
+        plugins: ['@babel/plugin-transform-runtime'],
+    }),
+    terser(),
+];
+
+if (args === '--dev') {
+    plugins = plugins.concat([
+        serve({
+            contentBase: '', //服务器启动的文件夹，默认是项目根目录，需要在该文件下创建index.html
+            port: 8020, //端口号，默认10001
+        }),
+        livereload('iife'), //watch dist目录，当目录中的文件发生变化时，刷新页面
+    ]);
+}
 
 export default [
     {
@@ -55,38 +95,7 @@ export default [
     },
     {
         input: 'src/index.ts',
-        plugins: [
-            clear({
-                targets: ['dist', 'esm', 'iife', 'cjs'],
-            }),
-            scss({
-                processor: () => postcss([autoprefixer()]),
-                // 配置选项，例如输出文件的路径和名称
-                output: false,
-                insert: true,
-                // 其他配置选项，如是否压缩等
-                outputStyle: 'compressed',
-            }),
-            resolve(),
-            commonjs(),
-            typescript({
-                outDir: 'iife',
-            }),
-            json(),
-            babel({
-                babelHelpers: 'runtime',
-                extensions: ['.ts', '.js'],
-                exclude: 'node_modules/**',
-                presets: [['@babel/preset-env', { modules: false }]],
-                plugins: ['@babel/plugin-transform-runtime'],
-            }),
-            terser(),
-            // serve({
-            //     contentBase: '', //服务器启动的文件夹，默认是项目根目录，需要在该文件下创建index.html
-            //     port: 8020, //端口号，默认10001
-            // }),
-            // livereload('iife'), //watch dist目录，当目录中的文件发生变化时，刷新页面
-        ],
+        plugins: plugins,
         output: [
             {
                 dir: 'iife',
