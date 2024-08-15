@@ -13,6 +13,6 @@
     "moduleResolution": "node",
     "baseUrl": ".",
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules", "dist", "esm", "iife","cjs"]
 }

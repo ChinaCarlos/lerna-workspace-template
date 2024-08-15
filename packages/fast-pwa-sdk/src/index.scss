@@ -1,0 +1,73 @@
+#FAST_PWA_SDK_INIT_CONFIG_LOADING {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}
+
+#FAST_PWA_SDK_INIT_CONFIG_LOADING .box {
+  width: 100px;
+  height: 100px;
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  box-sizing: border-box;
+  padding-top: 15px;
+  animation: __pwa__lg_show 0.25s;
+}
+
+#FAST_PWA_SDK_INIT_CONFIG_LOADING .box .circular-box {
+  width: 45px;
+  height: 45px;
+  margin: 0 auto;
+}
+
+#FAST_PWA_SDK_INIT_CONFIG_LOADING .box .text {
+  color: rgba(255, 255, 255, .7);
+  text-align: center;
+  font-size: 12px;
+}
+
+#FAST_PWA_SDK_INIT_CONFIG_LOADING .box .circular {
+  animation: init_pwa_rotate 2s linear infinite;
+  width: 45px;
+  height: 45px;
+}
+
+#FAST_PWA_SDK_INIT_CONFIG_LOADING .box .path {
+  animation: init_pwa_dash 1.5s ease-in-out infinite;
+  stroke-dasharray: 90,150;
+  stroke-dashoffset: 0;
+  stroke-width: 2;
+  stroke: rgba(255, 255, 255, .9);
+  stroke-linecap: round
+}
+
+@keyframes init_pwa_rotate {
+  to {
+      transform: rotate(360deg)
+  }
+}
+
+@keyframes init_pwa_dash {
+  0% {
+      stroke-dasharray: 1,200;
+      stroke-dashoffset: 0
+  }
+
+  50% {
+      stroke-dasharray: 90,150;
+      stroke-dashoffset: -40px
+  }
+
+  to {
+      stroke-dasharray: 90,150;
+      stroke-dashoffset: -120px
+  }
+}

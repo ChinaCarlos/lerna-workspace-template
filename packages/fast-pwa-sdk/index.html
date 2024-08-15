@@ -9,10 +9,16 @@
 
 <body>
   test lib
+  <button id="button"> install PWA</button>
 </body>
 <script src="./iife/index.js"></script>
 <script>
-  FAST_PWA_SDK.getInfo('xxx')
+  const fastPwaSdk = new FAST_PWA_SDK({ manifestUrl: 'http://localhost:8020/manifest.json', PWAId: 'xxxx', enableInitPwaLoading: true })
+  console.log('fastPwaSdk:', fastPwaSdk)
+  const button = document.querySelector('#button')
+  button.onclick = function () {
+    fastPwaSdk.installPWA()
+  }
 </script>
 
 
