@@ -1,3 +1,4 @@
+import Bowser from 'bowser';
 import { PWA_EVENT_LOG_INFO_TYPES } from './types';
 
 /**
@@ -36,3 +37,31 @@ export const openChrome = () => {
     const path = window.location.href.replace(/^(http|https):\/\//, '').replace(/\#.*/, '');
     window.location.href = `intent://${path}#Intent;scheme=https;package=com.android.chrome;end`;
 };
+
+/**
+ *  判断是否为IOS
+ * @returns boolean
+ */
+export const isIOS = () => {
+    const agent = navigator.userAgent.toLocaleUpperCase();
+    return (
+        /(IPHONE|IPAD|IPOD|IOS)/i.test(agent) ||
+        /(IPHONE|IPOD|IOS)/i.test(Bowser.getParser(window.navigator.userAgent).getOSName().toLocaleUpperCase())
+    );
+};
+
+/**
+ *  判断是否为android
+ * @returns boolean
+ */
+export const isAndroid = () => {
+    return /(Android)/i.test(navigator.userAgent);
+};
+
+/**
+ * 判断是否是chrome
+ * @returns boolean
+ */
+export function isChrome() {
+    return navigator.userAgent.indexOf('Chrome') !== -1;
+}
