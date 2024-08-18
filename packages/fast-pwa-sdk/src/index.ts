@@ -152,6 +152,15 @@ class FAST_PWA_SDK {
     }
 
     /**
+     * PWA 安装失败处理
+     */
+    private _installPwaFailedHandle() {
+        this.serviceWorkerInstallError = true;
+        this.options?.onInstallFailed && this.options.onInstallFailed();
+        this.instalStatus = PWA_INSTALL_STATUS.INSTALL_FAILED;
+    }
+
+    /**
      * 注册service worker
      */
     private async _registerServiceWorker() {
@@ -169,14 +178,11 @@ class FAST_PWA_SDK {
                 }
                 this.registration = registration;
             } catch (error) {
-                this.serviceWorkerInstallError = true;
-                this.options?.onInstallFailed && this.options.onInstallFailed();
+                this._installPwaFailedHandle();
                 console.error(`register fail：${error}`);
             }
         } else {
-            this.serviceWorkerInstallError = true;
-            this.options?.onInstallFailed && this.options.onInstallFailed();
-
+            this._installPwaFailedHandle();
             console.log(`this browser don't support serviceWorker`);
         }
     }
@@ -212,7 +218,6 @@ class FAST_PWA_SDK {
      * 根据不同的安装平台需要不同的处理
      * android, ios, desktop
      */
-
     private _installPwaProgress() {
         !this.options.closePwaInstallProgress && this._openPwaInstallModal();
         return new Promise(resolve => {
@@ -233,7 +238,6 @@ class FAST_PWA_SDK {
     /**
      * 检查是否不支持PWA
      */
-
     checkDontSupPwa() {
         return (
             !('serviceWorker' in navigator) ||
@@ -275,8 +279,7 @@ class FAST_PWA_SDK {
                 this.options?.onInstalled && this.options.onInstalled();
             } else {
                 console.log('user reject install PWA App！');
-                this.options.onInstallFailed && this.options.onInstallFailed();
-                this.instalStatus = PWA_INSTALL_STATUS.INSTALL_FAILED;
+                this._installPwaFailedHandle();
             }
         } else {
             this.goToApp();
