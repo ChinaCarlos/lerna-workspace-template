@@ -13,7 +13,7 @@
 </body>
 <script src="./iife/index.js"></script>
 <script>
-  const fastPwaSdk = new FAST_PWA_SDK({ manifestUrl: 'http://localhost:8020/manifest.json', PWAId: 'xxxx', enableInitPwaLoading: true })
+  const fastPwaSdk = new FAST_PWA_SDK({ manifestUrl: 'http://localhost:8020/manifest.json', PWAId: 'xxxx', enableInitPwaLoading: true, startUrl: 'https://www.baidu.com' })
   console.log('fastPwaSdk:', fastPwaSdk)
   const button = document.querySelector('#button')
   button.onclick = function () {

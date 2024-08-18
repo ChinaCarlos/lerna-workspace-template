@@ -18,6 +18,10 @@ export interface PWA_CONFIG_OPTIONS {
      * 是否展示初始化SDK的loading,默认是false
      */
     enableInitPwaLoading?: boolean;
+    /**
+     * 是否关闭展示PWA安装进度动画,默认是false，推荐用户自定义安装动画
+     */
+    closePwaInstallProgress?: boolean;
 }
 
 export enum PWA_LOG_TYPES {
