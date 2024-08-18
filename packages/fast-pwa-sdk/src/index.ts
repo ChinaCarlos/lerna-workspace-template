@@ -1,3 +1,4 @@
+import Bowser from 'bowser';
 import { PWA_CONFIG_OPTIONS, PWA_EVENT_LOG_INFO_TYPES, PWA_INSTALL_STATUS, USER_OUTCOME_TYPES } from './types';
 import { PwaLog } from './utils';
 import './index.scss';
@@ -18,6 +19,7 @@ class FAST_PWA_SDK {
     public installEvent: any = null;
     public instalStatus: PWA_INSTALL_STATUS = PWA_INSTALL_STATUS.TO_BE_INSTALLED;
     public installProgress: number = 0;
+    public serviceWorkerInstallError: boolean = false;
 
     public registration: ServiceWorkerRegistration | null = null;
     private static instance?: FAST_PWA_SDK;
@@ -46,7 +48,7 @@ class FAST_PWA_SDK {
     /**
      * 初始化PWA SDK Loading 界面所需要的DOM
      */
-    private initPwaSDKDom() {
+    private _initPwaSDKDom() {
         const initLoadingDom = document.createElement('div');
         initLoadingDom.id = FAST_PWA_SDK_INIT_CONFIG_LOADING;
         initLoadingDom.style.display = 'none';
@@ -68,11 +70,13 @@ class FAST_PWA_SDK {
         const installModalDom = document.createElement('div');
         installModalDom.id = FAST_PWA_INSTALL_MODAL;
         installModalDom.style.display = 'none';
+
         installModalDom.innerHTML = `
           <div class='box' style="animation: installing   ${DEFAULT_INSTALL_TIME / 1000}s forwards linear;">
            <div class='install' id='install_text'>PWA APP INSTALL...</div>
           </div>
         `;
+
         document.body.appendChild(installModalDom);
     }
 
@@ -135,7 +139,7 @@ class FAST_PWA_SDK {
      *
      */
     private async _initSDK() {
-        !!this.options.enableInitPwaLoading && this.initPwaSDKDom();
+        !!this.options.enableInitPwaLoading && this._initPwaSDKDom();
         this._showInitPwaLoading();
         this._createPwaHeaderTag();
         this._beforeInstallPromptHandle();
@@ -165,9 +169,14 @@ class FAST_PWA_SDK {
                 }
                 this.registration = registration;
             } catch (error) {
-                console.error(`注册失败：${error}`);
+                this.serviceWorkerInstallError = true;
+                this.options?.onInstallFailed && this.options.onInstallFailed();
+                console.error(`register fail：${error}`);
             }
         } else {
+            this.serviceWorkerInstallError = true;
+            this.options?.onInstallFailed && this.options.onInstallFailed();
+
             console.log(`this browser don't support serviceWorker`);
         }
     }
@@ -210,6 +219,7 @@ class FAST_PWA_SDK {
             const timerId = setInterval(() => {
                 this.installProgress =
                     this.installProgress + (DEFAULT_INTERVAL * DEFAULT_TOTAL_PROGRESS) / DEFAULT_INSTALL_TIME;
+                this.options?.onInstallProgress && this.options.onInstallProgress(this.installProgress);
                 if (this.installProgress >= 100) {
                     clearInterval(timerId);
                     this.installProgress = 100;
@@ -221,24 +231,55 @@ class FAST_PWA_SDK {
     }
 
     /**
+     * 检查是否不支持PWA
+     */
+
+    checkDontSupPwa() {
+        return (
+            !('serviceWorker' in navigator) ||
+            this.serviceWorkerInstallError ||
+            /lark|qq|wathaspp|xiaomi|redmi|miuibrowser|samsungbrowser|vivobrowser|oppobrowser|htcbrowser|oneplusbrowser|twitter|heytapbrowser|facebook|fb_iab|fb4a|fban|fbav/.test(
+                navigator.userAgent.toLocaleLowerCase()
+            ) ||
+            Bowser.getParser(window.navigator.userAgent).getBrowserName().toLocaleLowerCase() !== 'chrome'
+        );
+    }
+
+    /**
+     * 检查是否已经安装过该PWA
+     */
+    checkIsInstallPWA() {
+        return (
+            !!Number(localStorage.getItem(`${PREFIX_LOCAL_CACHE_KEY}_${this.options.PWAId}`)) ||
+            this.instalStatus === PWA_INSTALL_STATUS.INSTALLED
+        );
+    }
+
+    /**
      * 安装PWA
      */
     async installPWA() {
         // 首先判断是否已经安装过该PWA，如果安装过直接打开startUrl
         // 如果没有安装该PWA尝试安装该PWA，如果可以安装，走安装流程
         // 如果该浏览器不支持PWA，则打开startUrl
-        if (this.installEvent) {
+        const isInstallPwa = this.checkIsInstallPWA();
+        if (this.installEvent && !isInstallPwa && !this.checkDontSupPwa()) {
+            this.options?.onInstall && this.options.onInstall();
             const result = await this.installEvent?.prompt?.();
             if (result?.outcome === USER_OUTCOME_TYPES.ACCEPTED) {
-                console.log('用户同意安装PWA！');
+                console.log('user accept install PWA App！');
                 this.instalStatus = PWA_INSTALL_STATUS.INSTALLING;
                 await this._installPwaProgress();
                 this.instalStatus = PWA_INSTALL_STATUS.INSTALLED;
                 localStorage.setItem(`${PREFIX_LOCAL_CACHE_KEY}_${this.options.PWAId}`, '1');
+                this.options?.onInstalled && this.options.onInstalled();
             } else {
-                console.log('用户拒绝安装PWA！');
+                console.log('user reject install PWA App！');
+                this.options.onInstallFailed && this.options.onInstallFailed();
                 this.instalStatus = PWA_INSTALL_STATUS.INSTALL_FAILED;
             }
+        } else {
+            this.goToApp();
         }
     }
 

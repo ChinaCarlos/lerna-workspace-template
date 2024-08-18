@@ -7,7 +7,7 @@ import json from '@rollup/plugin-json';
 import scss from 'rollup-plugin-scss';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
-import { terser } from 'rollup-plugin-terser';
+import terser from '@rollup/plugin-terser';
 
 // 本地测试打包之后产物，在index.html 中引入打包之后的产物
 import serve from 'rollup-plugin-serve';

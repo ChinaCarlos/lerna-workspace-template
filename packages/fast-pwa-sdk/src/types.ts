@@ -22,6 +22,26 @@ export interface PWA_CONFIG_OPTIONS {
      * 是否关闭展示PWA安装进度动画,默认是false，推荐用户自定义安装动画
      */
     closePwaInstallProgress?: boolean;
+
+    /**
+     * 安装事件
+     */
+    onInstall?: () => void;
+
+    /**
+     * 安装进度事件
+     */
+    onInstallProgress?: (progress: number) => void;
+
+    /**
+     * 安装完成事件
+     */
+    onInstalled?: () => void;
+
+    /**
+     * 安装失败事件
+     */
+    onInstallFailed?: () => void;
 }
 
 export enum PWA_LOG_TYPES {

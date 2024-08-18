@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
+    "@rollup/plugin-terser": "^0.4.4",
     "autoprefixer": "^10.4.20",
     "eslint": "9.x",
     "globals": "^15.8.0",
@@ -40,5 +41,8 @@
     "*.{ts,tsx,js,jsx}": [
       "eslint"
     ]
+  },
+  "dependencies": {
+    "bowser": "^2.11.0"
   }
 }
