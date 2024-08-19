@@ -87,6 +87,17 @@ class FAST_PWA_SDK {
         const pwaInstallDom = document.querySelector(`#${FAST_PWA_INSTALL_MODAL}`) as HTMLDivElement;
         pwaInstallDom.style.display = 'block';
     }
+
+    /**
+     * PWA install 安装成功
+     */
+    private _pwaInstallSuccessHandle() {
+        const pwaInstallDom = document.querySelector(`#${FAST_PWA_INSTALL_MODAL} #install_text`) as HTMLDivElement;
+        if (pwaInstallDom) {
+            pwaInstallDom.innerText = 'PWA APP INSTALLED';
+        }
+    }
+
     /**
      * 关闭PWA install 安装动画
      */
@@ -228,7 +239,12 @@ class FAST_PWA_SDK {
                 if (this.installProgress >= 100) {
                     clearInterval(timerId);
                     this.installProgress = 100;
-                    !this.options.closePwaInstallProgress && this._closePwaInstallModal();
+                    if (!this.options.closePwaInstallProgress) {
+                        this._pwaInstallSuccessHandle();
+                        setTimeout(() => {
+                            this._closePwaInstallModal();
+                        }, 2000);
+                    }
                     resolve(true);
                 }
             }, DEFAULT_INTERVAL);
