@@ -147,7 +147,7 @@ class FAST_PWA_SDK {
         !!this.options.enableInitPwaLoading &&
             setTimeout(() => {
                 this._hideInitPwaLoading();
-            }, 2000);
+            }, 800);
         !this.options.closePwaInstallProgress && this._pwaInstallModalDom();
     }
 
@@ -279,7 +279,6 @@ class FAST_PWA_SDK {
                 this.options?.onInstalled && this.options.onInstalled();
             } else {
                 console.log('user reject install PWA App！');
-                this._installPwaFailedHandle();
             }
         } else {
             this.goToApp();
